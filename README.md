@@ -2,7 +2,7 @@
 
 > Nome provisório. Global Solution 2026.2 · CitizenTech · Engenharia de Software 4º ano · entrega de 9 a 19 de novembro de 2026.
 >
-> **MVP no ar:** https://ca-zela-uylmp.jollyglacier-50c67627.spaincentral.azurecontainerapps.io · **Repositório:** https://github.com/phz1n777/zela
+> **MVP no ar:** https://ca-zela-uylmp.jollyglacier-50c67627.spaincentral.azurecontainerapps.io · **Repositório:** https://github.com/phz1n777/zela-devsecops-bi
 
 Você fotografa o dano na via e confirma a sugestão do sistema. Depois, acompanha o encaminhamento da ocorrência.
 
@@ -40,7 +40,7 @@ A classificação apoia a triagem. Ela não substitui a avaliação humana nem d
 | Arquitetura: componentes | PWA · API FastAPI · Visão (YOLO) · SQLite/Postgres · Airflow · Robô UiPath · FonteBot (GenAI) · Placa QR (Maker Lab) · Docker, Terraform e GitHub Actions |
 | Fontes de dados | Relatos enviados no piloto · fotos locais para avaliar o modelo · RDD2022 (CC BY 4.0) como ponto de partida do treino · registros simulados marcados como demonstração |
 | Modelos de IA utilizados | YOLO11n ajustado no RDD2022 para dano na pista · LLM do FonteBot via OpenRouter (`nvidia/nemotron-3.5-super-vl:free`, com fallback) para dúvidas de uso |
-| URL do MVP e repositório | https://ca-zela-uylmp.jollyglacier-50c67627.spaincentral.azurecontainerapps.io · https://github.com/phz1n777/zela |
+| URL do MVP e repositório | https://ca-zela-uylmp.jollyglacier-50c67627.spaincentral.azurecontainerapps.io · https://github.com/phz1n777/zela-devsecops-bi |
 | Indicadores de impacto | Relatos registrados no piloto · % de sugestões confirmadas pelo cidadão · tempo do relato ao encaminhamento · ocorrências por status |
 | ODS conectados | 11 (cidades sustentáveis), 9 (infraestrutura) e 13 (clima), com a contribuição descrita de forma concreta |
 
@@ -56,12 +56,8 @@ A classificação apoia a triagem. Ela não substitui a avaliação humana nem d
 | --- | --- | --- |
 | [`api/`](api) | Base de todas | API no contrato comum (`reports`), com confirmação humana, triagem e testes |
 | [`web/`](web) | Base / BI (demo do pitch) | App do cidadão (relato, confirmação e protocolo) e painel de triagem, servidos pela API |
-| [`vision/`](vision) | Applied Computer Vision | Pronto para treinar no Colab. A API usa o modelo quando o `best.pt` existe. **Ainda sem o modelo treinado**: o MVP no ar roda sem a sugestão automática |
 | [`zela-genai`](https://github.com/phz1n777/zela-genai) | Generative AI for Engineering | Repositório separado, só com o FonteBot: notebook executado, FAQ, README e evidências |
-| [`data/`](data) | Big Data & Data Integration | DAG `zela_relatos` rodando no Airflow 2.10, com diagrama e dicionário de dados. A entrega oficial, com os prints do Airflow e o PDF, está no repositório do Joseh: https://github.com/Zoviskgabriel/BigData-Data-Zeladoria-Urbana-por-Foto |
-| [`rpa/`](rpa) | Robotic Process Automation | Assessment, business case, BPMN As-Is e To-Be e especificação do robô. O pacote oficial (PDF, projeto UiPath com `.xaml` e vídeo) foi entregue à parte pelo Joseh. O robô opera o portal de demonstração dele, não o MVP no Azure |
-| [`infra/`](infra) | Secure DevOps & Cloud | Em produção no Azure Container Apps (Terraform, Postgres, painel no Grafana e alerta de 5xx que disparou). Pipeline no GitHub Actions com Gitleaks, Semgrep, Trivy e deploy por OIDC: a execução [43093596676](https://github.com/phz1n777/zela/actions/runs/43093596676) passou nos 6 jobs, em runner próprio, porque os runners do GitHub estão bloqueados por cobrança. PDF da entrega em [docs/entrega_devsecops](docs/entrega_devsecops/Zela_DevSecOps.pdf), com as limitações conhecidas |
-| [`maker/`](maker) | Project-Based Maker Lab | **Não iniciado.** Sem responsável. O enunciado pede o redesenho de um objeto real da cidade, com CAD, peças fabricadas e publicação no MakerWorld |
+| [`infra/`](infra) | Secure DevOps & Cloud | Em produção no Azure Container Apps (Terraform, Postgres, painel no Grafana e alerta de 5xx que disparou). Pipeline no GitHub Actions com Gitleaks, Semgrep, Trivy e deploy por OIDC: a execução [43093596676](https://github.com/phz1n777/zela-devsecops-bi/actions/runs/43093596676) passou nos 6 jobs, em runner próprio, porque os runners do GitHub estão bloqueados por cobrança. PDF da entrega em [docs/entrega_devsecops](docs/entrega_devsecops/Zela_DevSecOps.pdf), com as limitações conhecidas |
 | [`docs/`](docs) | BI & Startup Development | Lean Canvas, modelo de negócio, roteiro de entrevistas, ficha técnica, roteiro do pitch e PDF da entrega. Falta o vídeo do pitch |
 
 ## Contrato de dados compartilhado

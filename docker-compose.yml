@@ -23,7 +23,6 @@ services:
       - "8000:8000"
     volumes:
       - fotos:/app/uploads
-      - ./vision/modelos:/app/modelos:ro
     depends_on:
       db:
         condition: service_healthy

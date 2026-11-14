@@ -14,7 +14,7 @@ from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parents[1]
-REPO = "https://github.com/phz1n777/zela"
+REPO = "https://github.com/phz1n777/zela-devsecops-bi"
 MVP = "https://ca-zela-uylmp.jollyglacier-50c67627.spaincentral.azurecontainerapps.io"
 BLOB = f"{REPO}/blob/main"
 
@@ -103,7 +103,7 @@ svg { width: 100%; height: auto; }
 <tr><th>Documentos</th><td><a href="{BLOB}/docs/arquitetura.md">arquitetura</a> · <a href="{BLOB}/docs/custos_e_lgpd.md">custos e LGPD</a> · <a href="{BLOB}/infra/evidencias/README.md">evidências</a> · <a href="{BLOB}/docs/ficha_tecnica.md">ficha técnica</a></td></tr>
 </table>
 
-<div class="aviso"><b>Transparência sobre o pipeline.</b> Os runners hospedados do GitHub Actions estão bloqueados na conta do repositório por um problema de cobrança do GitHub ("account is locked due to a billing issue"). O pipeline foi executado num <b>runner próprio</b>, registrado no repositório e rodando no computador do desenvolvedor, e depois removido. Na execução <a href="{REPO}/actions/runs/43093596676">43093596676</a> (commit 52c4321) os 6 jobs terminaram em sucesso, inclusive o deploy. A seção 9 lista as limitações conhecidas.</div>
+<div class="aviso"><b>Transparência sobre o pipeline.</b> Os runners hospedados do GitHub Actions estão bloqueados na conta do repositório por um problema de cobrança do GitHub ("account is locked due to a billing issue"). O pipeline foi executado num <b>runner próprio</b>, registrado no repositório e rodando no computador do desenvolvedor, e depois removido. Na execução <a href="https://github.com/phz1n777/zela/actions/runs/43093596676">43093596676</a> (no repositório original <code>zela</code>, antes da separação; commit 52c4321) os 6 jobs terminaram em sucesso, inclusive o deploy. A seção 9 lista as limitações conhecidas.</div>
 
 <h2>1. Arquitetura</h2>
 {DIAGRAMA}
@@ -131,7 +131,7 @@ svg { width: 100%; height: auto; }
 <h2>3. Pipeline DevSecOps</h2>
 <p>Workflow: <a href="{BLOB}/.github/workflows/ci.yml">.github/workflows/ci.yml</a>, com 6 jobs: <code>testes</code>, <code>gitleaks</code>, <code>semgrep</code>, <code>terraform</code>, <code>imagem</code> (Trivy) e <code>deploy</code>. Roda a cada push e pull request, e o <code>deploy</code> só na <code>main</code>, depois de todos os outros. O runner é escolhido pela variável opcional <code>RUNNER_LABEL</code> (sem ela, usa o runner do GitHub). O login no Azure é por OIDC, com os identificadores em GitHub Secrets (<code>AZURE_CLIENT_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_SUBSCRIPTION_ID</code>) e sem senha guardada.</p>
 <h3>Resultado no GitHub Actions</h3>
-<p>Execução <a href="{REPO}/actions/runs/43093596676">43093596676</a>, commit <code>52c4321</code>, em runner próprio:</p>
+<p>Execução <a href="https://github.com/phz1n777/zela/actions/runs/43093596676">43093596676</a> (no repositório original <code>zela</code>, antes da separação), commit <code>52c4321</code>, em runner próprio:</p>
 <table>
 <tr><th>Job</th><th>Ferramenta</th><th>Resultado</th></tr>
 <tr><td>testes</td><td>pytest (dentro de <code>api/</code>)</td><td class="ok">sucesso (30 testes localmente)</td></tr>
@@ -200,7 +200,7 @@ svg { width: 100%; height: auto; }
 <p><b>Estimativa: entre US$ 30 e US$ 60 por mês</b> com o piloto ligado o tempo todo. É uma estimativa por preços públicos, não um valor medido; o saldo real está em Cost Management no portal do Azure. O crédito do Azure for Students (cerca de US$ 100) cobre o período. O ambiente fica no ar durante a correção (cerca de uma semana depois de 19/11) e só então é destruído com <code>terraform destroy</code>. Mais formas de reduzir o custo em <a href="{BLOB}/docs/custos_e_lgpd.md">docs/custos_e_lgpd.md</a>.</p>
 
 <h2>8. Como reproduzir</h2>
-<pre>git clone {REPO}.git &amp;&amp; cd zela
+<pre>git clone {REPO}.git &amp;&amp; cd zela-devsecops-bi
 cp .env.example .env            # preencha tokens e senha
 docker compose up --build       # API em http://localhost:8000
 

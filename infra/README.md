@@ -66,7 +66,7 @@ az role assignment create --assignee "$APP" --role Contributor \
   --scope "/subscriptions/$SUB/resourceGroups/rg-zela-uylmp"
 az ad app federated-credential create --id "$APP" --parameters '{
   "name": "github-main", "issuer": "https://token.actions.githubusercontent.com",
-  "subject": "repo:phz1n777/zela:ref:refs/heads/main", "audiences": ["api://AzureADTokenExchange"]}'
+  "subject": "repo:phz1n777/zela-devsecops-bi:ref:refs/heads/main", "audiences": ["api://AzureADTokenExchange"]}'
 ```
 
 Depois, em *Settings → Secrets and variables → Actions* do repositório, crie `AZURE_CLIENT_ID` (o `$APP`), `AZURE_TENANT_ID` (`az account show --query tenantId`) e `AZURE_SUBSCRIPTION_ID`. O GitHub assina o login com o *subject* no formato novo, que inclui os IDs numéricos do dono e do repositório (`repo:<dono>@<id>/<repo>@<id>:ref:refs/heads/main`). Crie também uma segunda credencial federada com esse subject (o erro `AADSTS700213` mostra o valor exato). O papel fica restrito ao grupo de recursos do Zela. Em assinaturas de estudante, o locatário pode bloquear o registro de aplicativos; nesse caso o deploy continua manual (seção Deploy acima).
