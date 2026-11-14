@@ -19,6 +19,9 @@ RUN if [ "$COM_VISAO" = "1" ]; then \
     fi
 
 COPY api/app ./app
+# Detector de buracos (YOLO11n em ONNX, treinado no RDD2022). Sem ele, a API roda sem sugestão.
+COPY api/modelos/best.onnx ./modelos/best.onnx
+ENV VISION_MODEL_PATH=/app/modelos/best.onnx VISION_MODEL_NAME=yolo11n-rdd2022.onnx
 # App do cidadão e painel, servidos pela própria API.
 COPY web ./web
 ENV WEB_DIR=/app/web

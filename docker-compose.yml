@@ -18,7 +18,7 @@ services:
     env_file: .env
     environment:
       UPLOAD_DIR: /app/uploads
-      VISION_MODEL_PATH: /app/modelos/best.pt
+      VISION_MODEL_PATH: /app/modelos/best.onnx
     ports:
       - "8000:8000"
     volumes:
