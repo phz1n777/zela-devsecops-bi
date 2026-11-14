@@ -20,7 +20,7 @@ Estas três coisas mudam o que se pode mostrar. O roteiro abaixo já traz o cami
 
 | # | Decisão | Situação hoje | Caminho recomendado |
 | --- | --- | --- | --- |
-| D1 | **A IA sugere "dano na pista"?** | O MVP no ar roda **sem o modelo** (o `best.pt` ainda não foi treinado). A opção "Deixar o sistema sugerir" não devolve sugestão. | **A:** se o Joseh treinar a tempo, eu refaço a imagem com o YOLO e a demo mostra a sugestão com a confiança. **B:** sem o modelo, escolher a categoria na lista e dizer que a sugestão automática está em treino e aparece no vídeo de Visão. **Não** mostrar sugestão que não existe. |
+| D1 | **A IA sugere "dano na pista"?** | **Decidido: caminho A.** O MVP no ar roda o detector YOLO11n em ONNX (do Joseh). Ele é fraco em fotos locais (mAP@0,5 de 0,05 em 20 fotos), então só sugere quando encontra o dano. | Na demo, usar uma foto em que o detector sugere (peça ao Joseh duas ou três). Se ele não sugerir, escolher a categoria na lista e dizer isso. **Não** mostrar sugestão que não existe. |
 | D2 | **O robô UiPath faz parte da demo?** | O robô do Joseh opera o portal local dele, não o MVP no Azure. O MVP não muda de status sozinho. | Mostrar o fluxo do MVP **até "Em triagem"** e, em seguida, o corte do vídeo do robô **dizendo claramente** que ele opera o portal de demonstração. Só mostrar "Encaminhado" no painel se o robô realmente o gravar pela API. |
 | D3 | **Território piloto** | **Decidido:** o bairro Jardim das Belezas, onde mora um dos integrantes. | Usar "bairro Jardim das Belezas" no vídeo, no PDF e na ficha. Nas fotos, nada de fachada ou número de casa à vista. |
 
@@ -42,7 +42,7 @@ Se citarem dados das conversas, digam que as entrevistas foram **simuladas** (au
 
 > "O Zela transforma uma foto e um local em uma ocorrência que dá para acompanhar. Você fotografa o dano, confirma e recebe um número de protocolo. Não pedimos nome, telefone nem e-mail. O sistema sugere a categoria, mas quem confirma é a pessoa, porque a classificação apoia a triagem e não decide sozinha."
 
-Se for o caminho B da decisão D1, troquem "o sistema sugere" por "o cidadão escolhe a categoria, e a sugestão automática por foto está em treinamento".
+Se o detector não sugerir na foto da demo, troquem "o sistema sugere" por "aqui o detector não encontrou dano, então eu escolho a categoria".
 
 ### 3. Demo do MVP · 1:30–3:00 · Pedro (app e painel) e Joseh (IA e dados)
 

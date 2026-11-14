@@ -120,7 +120,7 @@ svg { width: 100%; height: auto; }
 <h2>2. Container e infraestrutura como código</h2>
 <table>
 <tr><th>Critério</th><th>Como foi atendido</th></tr>
-<tr><td>Dockerfile enxuto, usuário não root</td><td>Base <code>python:3.12-slim</code>, <code>--no-cache-dir</code>, usuário <code>zela</code> (uid 10001) e <code>HEALTHCHECK</code>. O YOLO é opcional (<code>COM_VISAO=1</code>) para a imagem não crescer ~1 GB sem necessidade.</td></tr>
+<tr><td>Dockerfile enxuto, usuário não root</td><td>Base <code>python:3.12-slim</code>, <code>--no-cache-dir</code>, usuário <code>zela</code> (uid 10001) e <code>HEALTHCHECK</code>. O detector de buracos roda em ONNX (<code>onnxruntime</code>, sem torch), com o modelo de ~10 MB dentro da imagem. O YOLO completo com torch é opcional (<code>COM_VISAO=1</code>, ~1 GB a mais).</td></tr>
 <tr><td>Sem segredo na imagem</td><td>Tokens, senha do banco e <code>DATABASE_URL</code> chegam por variáveis de ambiente (<em>secrets</em> do Container App). O <code>.env</code> é ignorado pelo git e o Gitleaks varre o histórico.</td></tr>
 <tr><td>Stack sobe com docker compose</td><td><code>docker compose up</code> sobe API e Postgres. <code>docker-compose.monitoring.yml</code> adiciona Prometheus e Grafana.</td></tr>
 <tr><td>Nuvem criada por Terraform</td><td>14 recursos em <code>infra/terraform/</code>: resource group, ACR, Postgres, Log Analytics, ambiente e Container App, identidade gerenciada, alerta e grupo de ação. O <code>subscription_id</code> fica fixado no provider.</td></tr>
@@ -134,7 +134,7 @@ svg { width: 100%; height: auto; }
 <p>Execução <a href="https://github.com/phz1n777/zela/actions/runs/43093596676">43093596676</a> (no repositório original <code>zela</code>, antes da separação), commit <code>52c4321</code>, em runner próprio:</p>
 <table>
 <tr><th>Job</th><th>Ferramenta</th><th>Resultado</th></tr>
-<tr><td>testes</td><td>pytest (dentro de <code>api/</code>)</td><td class="ok">sucesso (30 testes localmente)</td></tr>
+<tr><td>testes</td><td>pytest (dentro de <code>api/</code>)</td><td class="ok">sucesso (30 testes na época; 40 hoje, com o detector)</td></tr>
 <tr><td>gitleaks</td><td>Gitleaks 8.30.1, histórico git inteiro</td><td class="ok">sucesso, nenhum segredo</td></tr>
 <tr><td>semgrep</td><td>Semgrep 1.97.0, regras <code>p/python</code> e <code>p/dockerfile</code></td><td class="ok">sucesso (158 regras, 0 achados localmente)</td></tr>
 <tr><td>terraform</td><td><code>terraform validate</code> e <code>fmt</code></td><td class="ok">sucesso</td></tr>
@@ -229,7 +229,7 @@ terraform init &amp;&amp; terraform plan -out tf.plan &amp;&amp; terraform apply
 </ul>
 <h3>Produto, dados e infraestrutura</h3>
 <ul>
-<li><b>Sem sugestão de dano pela IA em produção.</b> A imagem publicada roda sem o YOLO (o modelo ainda não foi treinado), então o relato não recebe a sugestão automática.</li>
+<li><b>Sugestão de dano pela IA ainda fraca em fotos locais.</b> A imagem publicada inclui o detector YOLO11n (ONNX), treinado numa amostra do RDD2022 (mAP@0,5 de 0,47 na validação, 0,05 em 20 fotos locais). Quando ele não encontra dano, o relato fica sem sugestão e a pessoa escolhe a categoria. A sugestão é sempre confirmada por uma pessoa.</li>
 <li><b>Leitura pública da API</b> (listagem, relato e foto), <b>sem rota de exclusão nem prazo de retenção</b>, e texto livre sem filtro de dados pessoais. Detalhes na seção 6.</li>
 <li><b>Fotos em disco efêmero:</b> somem a cada novo deploy do contêiner.</li>
 <li><b>Banco sem rede privada:</b> aceita apenas a regra "serviços do Azure", com TLS e senha. Para produção, o certo é rede virtual e endpoint privado. O <code>/metrics</code> também é público.</li>
